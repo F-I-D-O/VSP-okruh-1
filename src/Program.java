@@ -1,5 +1,4 @@
 
-import java.util.HashMap;
 
 
 public class Program {
@@ -23,13 +22,13 @@ public class Program {
     
     
     
-    private int numberOfGeneratedNumbers;
+    private final int numberOfGeneratedNumbers;
     
-    private double mixCoef;
+    private final double mixCoef;
     
-    private int lambda1;
+    private final double lambda1;
     
-    private int lambda2;
+    private final double lambda2;
     
     private double sumOfGeneratedNumbers;
     
@@ -45,8 +44,8 @@ public class Program {
         
         Program program = null;
         if(arguments.length == 4){
-            program = new Program(Integer.parseInt(arguments[1]), Integer.parseInt(arguments[2]), 
-                    Integer.parseInt(arguments[3]), Integer.parseInt(arguments[4]));
+            program = new Program(Integer.parseInt(arguments[0]), Double.parseDouble(arguments[1]), 
+                    Double.parseDouble(arguments[2]), Double.parseDouble(arguments[3]));
         }
         else{
             program = new Program(TEST_NUMBER_OF_GENERATED_SAMPLES, TEST_MIX_COEF, TEST_LAMBDA_1, TEST_LAMBDA_2);
@@ -56,7 +55,7 @@ public class Program {
         program.run();
     }
 
-    public Program(int numberOfGeneratedSamples, double mixCoef, int lambda1, int lambda2) {
+    public Program(int numberOfGeneratedSamples, double mixCoef, double lambda1, double lambda2) {
         this.numberOfGeneratedNumbers = numberOfGeneratedSamples;
         this.mixCoef = mixCoef;
         this.lambda1 = lambda1;
@@ -120,7 +119,7 @@ public class Program {
         }
     }
 
-    private double getRandomNumberFromExponentialDistribution(final int lambda) {
+    private double getRandomNumberFromExponentialDistribution(final double lambda) {
         final double uniformDistributionRandomNumber = Math.random();
         return - Math.log(1 - uniformDistributionRandomNumber) / lambda;
     }
