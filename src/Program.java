@@ -14,7 +14,7 @@ public class Program {
     
     private static final int TEST2_NUMBER_OF_GENERATED_SAMPLES = 10000000;
     
-    private static final double TEST2_MIX_COEF = 0.3;
+    private static final double TEST2_MIX_COEF = 0.7;
     
     private static final int TEST2_LAMBDA_1 = 1;
     
@@ -85,27 +85,23 @@ public class Program {
     }
 
     private double getVarianceTheory() {
-//        return Math.pow(mixCoef, 2) / Math.pow(lambda1, 2) + Math.pow(1 - mixCoef, 2) / Math.pow(lambda2, 2);
-//        return Math.pow(expectedValue, 2) + mixCoef * (1 - mixCoef) * Math.pow(1 / lambda1 - 1 / lambda2, 2) 
-//                + mixCoef * (1 - mixCoef) * Math.pow(1 / lambda2 - 1 / lambda1, 2);
         return 2 / Math.pow(lambda1, 2) * mixCoef + 2 / Math.pow(lambda2, 2) * (1 - mixCoef) - Math.pow(expectedValue, 2);
     }
 
     private void generateNumbers() {
         generatedNumbers = new double[numberOfGeneratedNumbers];
-        for(int i = 0; i < numberOfGeneratedNumbers; i++){
-            double randomValue = getRandomValue();
-            sumOfGeneratedNumbers += randomValue;
-            generatedNumbers[i] = randomValue;
-        }
-        expectedValue = sumOfGeneratedNumbers / numberOfGeneratedNumbers;
-        
+        int n = 0;
+        double difference;
         double distanceSquareSum = 0;
         distribution = new double[][]{{0.1, 0}, {0.2, 0}, {0.3, 0}, {0.4, 0}, {0.5, 0}, {0.6, 0}, {0.7, 0}, {0.8, 0},
             {0.9, 0}, {1.0, 0}};
         for(int i = 0; i < numberOfGeneratedNumbers; i++){
-            distanceSquareSum += Math.pow(generatedNumbers[i] - expectedValue, 2);
-            increaseDistribution(generatedNumbers[i]);
+            n++;
+            double randomValue = getRandomValue();
+            difference = randomValue - expectedValue;
+            expectedValue += difference / n; 
+            distanceSquareSum += difference * (randomValue - expectedValue);
+            increaseDistribution(randomValue);
         }
         variance = distanceSquareSum / numberOfGeneratedNumbers;
     }
